@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="keywords" content="node,软件,前端,前端工程师,计算机,互联网,web开发工程师,nodejs,HTML,CSS,JavaScript,HTML5,CSS3,git,Github">
+    <meta name="description" content="研究互联网技术技术和产品">
+    <title>首页 - Zhong的博客</title>
+    <link rel="icon" href="/public/images/logo.ico">
+
+    <!--<link href="/public/css/bootstrap.min.css" rel="stylesheet">-->
+    <!--<link href="/public/css/bootstrap-theme.min.css" rel="stylesheet">-->
+    <link href="/public/css/main.css" rel="stylesheet">
+
+    <script src="/public/js/jquery-1.12.4.min.js"></script>
+    <!--<script src="/public/js/bootstrap.min.js"></script>-->
+    <script src="/public/js/main.js"></script>
+
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<nav class="toppest clearfix">
+    <div class="logo fl_left"><a href="/logo" target="_blank"><img width="30" src="/public/images/logo.gif" alt="logo"></a></div>
+    <div class="nav fl_left">
+        <ul>
+            <li><a class="on" href="/">博客</a></li>
+            <li><a href="/future">Future</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="banner">
+    <div class="userForm fl_right">
+        {% if userInfo._id %}
+        <!--用户信息-->
+        <div class="userInfo">
+            <div class="item fl_right">
+                <button class="logout">退出</button>
+            </div>
+            <div class="item fl_right">
+                {% if userInfo.isAdmin %}
+                <p>登录信息：<strong>{{userInfo.username}}</strong>，管理员你好，<a href="/admin" target="_blank">进入后台</a></p>
+                {% else %}
+                <p>登录信息：<strong>{{userInfo.username}}</strong>，你好，欢迎光临我的博客！</p>
+                {% endif %}
+            </div>
+        </div>
+        {% else %}
+        <!--最初注册or登陆选择按钮-->
+        <div class="accessBtn">
+            <div class="item fl_right">
+                <button class="toRegister">注册</button>
+            </div>
+            <div class="item fl_right">
+                <button class="toLogin">登录</button>
+            </div>
+        </div>
+        <!--登录-->
+        <form id="login" onsubmit="{return false}" style="display: none">
+            <div class="item fl_right">
+                <a class="handover" href="javascript:void(0);">注册</a>
+            </div>
+            <div class="item fl_right">
+                <button>登录</button>
+            </div>
+            <div class="item fl_right">
+                <label>密码：</label>
+                <input type="password" name="password">
+            </div>
+            <div class="item fl_right">
+                <label>用户名：</label>
+                <input type="text" name="username">
+            </div>
+            <div class="item fl_right">
+                <p class="warning"></p>
+            </div>
+        </form>
+        <!--注册-->
+        <form id="register" onsubmit="{return false}" style="display: none">
+            <div class="item fl_right">
+                <a class="handover" href="javascript:void(0);">登录</a>
+            </div>
+            <div class="item fl_right">
+                <button>注册</button>
+            </div>
+            <div class="item fl_right">
+                <label>确认密码：</label>
+                <input type="password" name="repassword">
+            </div>
+            <div class="item fl_right">
+                <label>密码：</label>
+                <input type="password" name="password">
+            </div>
+            <div class="item fl_right">
+                <label>用户名：</label>
+                <input type="text" name="username">
+            </div>
+            <div class="item fl_right">
+                <p class="warning"></p>
+            </div>
+        </form>
+        {% endif %}
+    </div>
+</div>
+<nav class="blogNav clearfix">
+    <ul>
+        {% if category == '' %}
+            <li class="on"><a href="/">首页</a></li>
+        {% else %}
+            <li><a href="/">首页</a></li>
+        {% endif %}
+
+        {% for cate in categories %}
+            {% if category == cate.id %}
+            <li class="on"><a href="/?category={{cate.id}}">{{cate.name}}</a></li>
+            {% else %}
+            <li><a href="/?category={{cate.id}}">{{cate.name}}</a></li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</nav>
+
+<div class="container clearfix">
+    <div class="mainleft">
+        {% block content %}{% endblock %}
+    </div>
+    <div class="mainRight">
+        <div class="section">
+            <p class="aboutWriter text-center">关于作者：</p>
+            <div class="text-center"><img src="/public/images/zzz.jpg" width="80%" alt="关于作者"></div>
+            <p class="text-center"> . <br> One <br> . <br> more <br> . <br> There will be more wonderful thing...</p>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="footer">
+        <p class="text-center">&copy; Copyright by<a href="/logo" target="_blank"><img src="/public/images/logo-white-50.png" alt="logo" width="50"></a></p>
+    </div>
+</footer>
+
+</body>
+
+</html>

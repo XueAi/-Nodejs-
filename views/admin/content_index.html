@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+
+{% block main %}
+<ol class="breadcrumb">
+  <li><a href="/admin">后台首页</a></li>
+  <li><span>内容列表</span>></li>
+</ol>
+
+<h3>内容列表</h3>
+
+{% include 'page.html' %}
+
+<table class="table table-hover table-striped">
+  <tr>
+    <th>ID</th>
+    <th>内容分类</th>
+    <th>标题名称</th>
+    <th>作者</th>
+    <th>添加时间</th>
+    <th>阅读量</th>
+    <th>评论数</th>
+    <th>操作</th>
+  </tr>
+
+  {% for data in datas %}
+  <tr>
+    <th>{{data._id.toString()}}</th>
+    <th>{{data.category.name}}</th>
+    <th>{{data.title}}</th>
+    <th>{{data.user.username}}</th>  <!-- 有其他办法-userInfo -->
+    <th>{{data.addTime|date('Y年m月d日 H:i:s',-8*60)}}</th> <!-- 东八区偏移量 -8*60（分钟） -->
+    <th>{{data.views}}</th>
+    <th>{{data.comments.length}}</th>
+    <th>
+      <a href="/admin/content/edit?id={{data._id.toString()}}">修改</a>
+      <a href="/admin/content/delete?id={{data._id.toString()}}">删除</a>
+    </th>
+  </tr>
+  {% endfor %}
+
+</table>
+
+{% include 'page.html' %}
+
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends './layout.html' %}
+
+{% block content %}
+<div class="section">
+    <h2 class="text-center">{{content.title}}</h2>
+    <p class="text-center" style="padding: 3px 0 5px;border-bottom: 1px solid #eaeaea;">
+        作者：<span class="colInfo">{{content.user.username}}</span> -
+        时间：<span class="colInfo">{{content.addTime|date('Y年m月d日 H:i:s',-8*60)}}</span> -
+        阅读：<span class="colInfo">{{content.views}}</span> -
+        评论：<span class="colInfo">{{content.comments.length}}</span>
+    </p>
+    <p class="text-indent">{% autoescape %}{{content.content}}{% endautoescape %}</p>
+</div>
+
+<div id="message" class="container-fluid section">
+    <h3><strong>评论：</strong><small>（护眼注意：每分钟最多发表2次评论）</small></h3>
+    <input id="contentId" type="hidden" value="{{content.id}}">
+    {% if userInfo._id %}
+        <form id="comment" onsubmit="{return false;}">
+            <div class="form-group">
+                <!--<textarea id="commentText" class="form-control" rows="3"></textarea>-->
+                <script id="commentUeditor"></script>
+                <button type="submit">提 交</button>
+            </div>
+            <p class="text-center warning"></p>
+        </form>
+        <table class="messageList">
+        </table>
+    {% else %}
+        <p class="text-center lead">登录之后才可以发表评论</p>
+        <table class="messageList">
+        </table>
+    {% endif %}
+
+    <!--翻页-->
+    <nav>
+        <ul class="pager clearfix" style="padding: 20px 20px 5px">
+            <li class="previous"></li>
+
+            <li class="page midPage"></li>
+
+            <li class="next fl_right"></li>
+        </ul>
+    </nav>
+</div>
+
+<script src="/public/ueditor/ueditor.config.js"></script>
+<script src="/public/ueditor/ueditor.all.min.js"></script>
+<script src="/public/ueditor/lang/zh-cn/zh-cn.js"></script>
+<script src="/public/js/comment.js"></script>
+<script type="text/javascript">
+    //实例化编辑器
+    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+    var ue = UE.getEditor('commentUeditor', {
+        toolbars: [
+            ["simpleupload", "emotion"]
+        ],
+        initialFrameHeight:80,
+        maximumWords: 500,
+        emotionLocalization:true
+    });
+</script>
+{% endblock %}
